@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINH PHAM Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="loading-screen">
+        <div class="loading-content">
+            <img src="logo.svg" alt="Logo" class="loading-logo">
+            <div class="loader"></div>
+        </div>
+    </div>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="logo-corner">
+            <img src="logo.svg" alt="Logo" class="logo">
+        </div>
+        <nav class="side-nav">
+            <ul>
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="#work">WORK</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+        </nav>
+        <div class="hero-content">
+            <div class="name"><p>HOC PRO</p></div>
+            <div class="title-stack">
+                <div class="title-line"><p>WELCOME</p></div>
+                <div class="title-line accent"><p>IN</p></div>
+                <div class="title-line accent"><p>HOCINE</p></div>
+                <div class="title-line"><p>BEAUT</p></div>
+                <div class="title-line"><p>PORTFOLIO </p></div>
+            </div>
+        </div>
+        <!-- <div class="social-links">
+            <a href="#" class="social-link">
+                <img src="dribbble.svg" alt="Dribbble">
+            </a>
+            <a href="#" class="social-link">
+                <img src="instagram.svg" alt="Instagram">
+            </a>
+            <a href="#" class="social-link">
+                <img src="play.svg" alt="Play">
+            </a>
+            <a href="#" class="social-link">
+                <img src="linkedin.svg" alt="LinkedIn">
+            </a>
+        </div> -->
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-header">
+            <span class="section-label">ABOUT ME</span>
+        </div>
+        <div class="about-content">
+            <div class="about-text-container">
+                <span class="about-prefix"><p>I'm a</p></span>
+                <span class="highlight"><p>selectively skilled</p></span>
+                <span class="about-suffix"><p>Front-End Developer with a strong focus on crafting high-quality and impactful digital experiences.</p></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Section -->
+    <section id="work" class="work">
+        <div class="work-header">
+            <span class="section-label">MY WORK</span>
+        </div>
+        <div class="brand-list">
+            <div class="brand-item"><a href="https://gym-rho-lake.vercel.app/">GYM</a></div>
+            <div class="brand-item"><a href="https://gym-rho-lake.vercel.app/">TABIB</a></div>
+            <div class="brand-item"><a href="https://webcrafter-two.vercel.app/">WEBCRAFTER ("BETA") </a></div>
+            <div class="brand-item"><a href="#">HOC PRO</a></div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="section-title">CONTACT</div>
+        <div class="contact-content">
+            <div class="contact-text">
+                <p class="highlight">Let's Create Something Together</p>
+                <p>Open for collaborations and interesting projects.</p>
+            </div>
+            <div class="contact-links">
+                <a href="mailto:hocine1212007@gmail.com" class="contact-link">
+                    hocine1212007@gmail.com <span class="dot">.</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p> 2023 MINH PHAM <span class="dot">.</span> All Rights Reserved</p>
+    </footer>
+    <div class="cursor-follower"></div>
+    <script>
+        const cursorFollower = document.querySelector('.cursor-follower');
+        let currentX = 0;
+        let currentY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+        });
+
+        function lerp(start, end, factor) {
+            return start + (end - start) * factor;
+        }
+
+        function animate() {
+            currentX = lerp(currentX, targetX, 0.08);
+            currentY = lerp(currentY, targetY, 0.08);
+            
+            cursorFollower.style.left = currentX + 'px';
+            cursorFollower.style.top = currentY + 'px';
+            
+            requestAnimationFrame(animate);
+        }
+        
+
+        animate();
+        // Select all elements with class 'title-line'
+        const titleLines = document.querySelectorAll('p');
+
+        // Function to add 'hover-title' class to the body
+        function addHoverClass() {
+            document.body.classList.add('hover-title');
+        }
+
+        // Function to remove 'hover-title' class from the body
+        function removeHoverClass() {
+            document.body.classList.remove('hover-title');
+        }
+
+        // Add event listeners to each '.title-line' element
+        titleLines.forEach(line => {
+            line.addEventListener('mouseenter', addHoverClass);
+            line.addEventListener('mouseleave', removeHoverClass);
+        });
+    </script>
+    <script>
+        let currentScroll = window.pageYOffset;
+        let targetScroll = currentScroll;
+        let ease = 0.05;  
+        let isScrolling;
+        let wheelListener;
+
+        function smoothScroll() {
+            // Remove existing wheel listener if it exists
+            if (wheelListener) {
+                window.removeEventListener('wheel', wheelListener);
+                wheelListener = null;
+            }
+
+            // Exit for mobile and tablet
+            if (window.innerWidth <= 1024) {
+                return;
+            }
+            
+            currentScroll = window.pageYOffset;
+            
+            wheelListener = (e) => {
+                targetScroll = Math.max(0, 
+                    Math.min(targetScroll + e.deltaY * 0.8, 
+                    document.documentElement.scrollHeight - window.innerHeight)
+                );
+                e.preventDefault();
+
+                clearTimeout(isScrolling);
+                isScrolling = setTimeout(() => {
+                    ease = 0.03;
+                }, 150);
+
+                ease = 0.05;
+            };
+
+            window.addEventListener('wheel', wheelListener, { passive: false });
+
+            function animate() {
+                // Exit animation for mobile and tablet
+                if (window.innerWidth <= 1024) {
+                    if (wheelListener) {
+                        window.removeEventListener('wheel', wheelListener);
+                        wheelListener = null;
+                    }
+                    return;
+                }
+
+                let diff = targetScroll - currentScroll;
+                
+                if (Math.abs(diff) < 1) {
+                    ease = 0.02;
+                }
+                
+                currentScroll += diff * ease;
+                
+                window.scrollTo({
+                    top: currentScroll,
+                    behavior: 'auto'
+                });
+                
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        // Initial call
+        smoothScroll();
+
+        // Update on resize
+        window.addEventListener('resize', smoothScroll);
+    </script>
+    <script>
+        // Menu navigation scroll
+        document.querySelectorAll('.side-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Update targetScroll for the smooth scroll system
+                    targetScroll = targetElement.offsetTop;
+                    currentScroll = window.pageYOffset;
+                    
+                    // Temporarily increase ease value for faster response
+                    ease = 0.1;
+                    
+                    // Reset ease value after animation
+                    setTimeout(() => {
+                        ease = 0.05;
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        // Custom smooth scroll animation
+        // document.querySelectorAll('.side-nav a').forEach(anchor => {
+        //     anchor.addEventListener('click', function(e) {
+        //         e.preventDefault();
+                
+        //         const targetId = this.getAttribute('href');
+        //         const targetElement = document.querySelector(targetId);
+                
+        //         if (targetElement) {
+        //             const targetPosition = targetElement.offsetTop;
+        //             const startPosition = window.pageYOffset;
+        //             const distance = targetPosition - startPosition;
+        //             const duration = 1000; // Duration in milliseconds
+        //             let start = null;
+                    
+        //             function animation(currentTime) {
+        //                 if (start === null) start = currentTime;
+        //                 const timeElapsed = currentTime - start;
+        //                 const run = ease(timeElapsed, startPosition, distance, duration);
+        //                 window.scrollTo(0, run);
+        //                 if (timeElapsed < duration) {
+        //                     requestAnimationFrame(animation);
+        //                 }
+        //             }
+                    
+        //             // Easing function
+        //             function ease(t, b, c, d) {
+        //                 t /= d / 2;
+        //                 if (t < 1) return c / 2 * t * t + b;
+        //                 t--;
+        //                 return -c / 2 * (t * (t - 2) - 1) + b;
+        //             }
+                    
+        //             requestAnimationFrame(animation);
+        //         }
+        //     });
+        // });
+    </script>
+</body>
+</html>
